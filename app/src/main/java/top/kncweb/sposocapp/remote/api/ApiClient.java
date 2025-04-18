@@ -1,4 +1,4 @@
-package top.kncweb.sposocapp.api;
+package top.kncweb.sposocapp.remote.api;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
@@ -31,5 +31,9 @@ public class ApiClient {
 
     public static UserInfoApiService getUserInfoApiService(String token) {
         return getClient(token).create(UserInfoApiService.class);
+    }
+
+    public static ActivityRecordService getActivityRecordService(String token) {
+        return getClient(token).create(ActivityRecordService.class);
     }
 }

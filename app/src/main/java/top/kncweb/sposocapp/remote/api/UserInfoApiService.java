@@ -1,4 +1,4 @@
-package top.kncweb.sposocapp.api;
+package top.kncweb.sposocapp.remote.api;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -8,8 +8,8 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
-import top.kncweb.sposocapp.models.UniResponse;
-import top.kncweb.sposocapp.models.UserInfo;
+import top.kncweb.sposocapp.remote.models.UniResponse;
+import top.kncweb.sposocapp.remote.models.UserInfo;
 
 public interface UserInfoApiService {
 

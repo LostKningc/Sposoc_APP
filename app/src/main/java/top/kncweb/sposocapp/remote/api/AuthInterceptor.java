@@ -1,4 +1,4 @@
-package top.kncweb.sposocapp.api;
+package top.kncweb.sposocapp.remote.api;
 
 import android.content.Context;
 

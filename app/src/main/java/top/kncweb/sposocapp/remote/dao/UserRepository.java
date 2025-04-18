@@ -1,16 +1,14 @@
-package top.kncweb.sposocapp.dao;
-
-import android.util.Log;
+package top.kncweb.sposocapp.remote.dao;
 
 import androidx.annotation.NonNull;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import top.kncweb.sposocapp.api.ApiClient;
-import top.kncweb.sposocapp.api.UserApiService;
-import top.kncweb.sposocapp.models.UniResponse;
-import top.kncweb.sposocapp.models.User;
+import top.kncweb.sposocapp.remote.api.ApiClient;
+import top.kncweb.sposocapp.remote.api.UserApiService;
+import top.kncweb.sposocapp.remote.models.UniResponse;
+import top.kncweb.sposocapp.remote.models.User;
 
 public class UserRepository {
     private UserApiService userApiService;

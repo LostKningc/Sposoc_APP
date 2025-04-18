@@ -1,4 +1,4 @@
-package top.kncweb.sposocapp.models;
+package top.kncweb.sposocapp.remote.models;
 
 public class UserInfo {
 

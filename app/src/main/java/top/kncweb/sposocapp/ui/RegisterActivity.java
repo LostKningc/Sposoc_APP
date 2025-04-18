@@ -13,9 +13,9 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import top.kncweb.sposocapp.R;
-import top.kncweb.sposocapp.dao.SCallback;
-import top.kncweb.sposocapp.dao.UserRepository;
-import top.kncweb.sposocapp.models.User;
+import top.kncweb.sposocapp.remote.dao.SCallback;
+import top.kncweb.sposocapp.remote.dao.UserRepository;
+import top.kncweb.sposocapp.remote.models.User;
 
 public class RegisterActivity extends AppCompatActivity {
 

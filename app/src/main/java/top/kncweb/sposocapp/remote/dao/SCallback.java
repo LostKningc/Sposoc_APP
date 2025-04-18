@@ -1,4 +1,4 @@
-package top.kncweb.sposocapp.dao;
+package top.kncweb.sposocapp.remote.dao;
 
 
 public interface SCallback<T> {

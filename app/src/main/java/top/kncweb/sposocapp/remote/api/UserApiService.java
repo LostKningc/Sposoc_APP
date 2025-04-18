@@ -1,14 +1,12 @@
-package top.kncweb.sposocapp.api;
+package top.kncweb.sposocapp.remote.api;
 
 import retrofit2.Call;
-import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
-import top.kncweb.sposocapp.models.UniResponse;
-import top.kncweb.sposocapp.models.User;
-import top.kncweb.sposocapp.models.UserLogin;
+import top.kncweb.sposocapp.remote.models.UniResponse;
+import top.kncweb.sposocapp.remote.models.User;
 
 public interface UserApiService {
     @POST("user")

@@ -16,9 +16,9 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import top.kncweb.sposocapp.R;
-import top.kncweb.sposocapp.dao.SCallback;
-import top.kncweb.sposocapp.dao.UserInfoRepository;
-import top.kncweb.sposocapp.models.UserInfo;
+import top.kncweb.sposocapp.remote.dao.SCallback;
+import top.kncweb.sposocapp.remote.dao.UserInfoRepository;
+import top.kncweb.sposocapp.remote.models.UserInfo;
 import top.kncweb.sposocapp.util.JwtManager;
 
 public class UserInfoActivity extends AppCompatActivity {

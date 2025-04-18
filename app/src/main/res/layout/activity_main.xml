@@ -11,10 +11,11 @@
         android:id="@+id/bt_toReg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="148dp"
+        android:layout_marginBottom="104dp"
         android:text="@string/reg_button_name"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.506"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
@@ -54,6 +55,26 @@
         android:layout_marginBottom="32dp"
         android:text="Info"
         app:layout_constraintBottom_toTopOf="@+id/bt_toLogin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/bt_toActivity"
+        android:layout_width="101dp"
+        android:layout_height="49dp"
+        android:layout_marginBottom="28dp"
+        android:text="Activity"
+        app:layout_constraintBottom_toTopOf="@+id/bt_toInfo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/bt_toFriends"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:text="Friends"
+        app:layout_constraintBottom_toTopOf="@+id/bt_toActivity"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
