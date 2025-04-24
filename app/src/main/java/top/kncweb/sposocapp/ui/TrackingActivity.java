@@ -6,6 +6,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -34,10 +35,12 @@ import java.util.List;
 import java.util.Locale;
 
 import top.kncweb.sposocapp.R;
+import top.kncweb.sposocapp.SposocApplication;
 import top.kncweb.sposocapp.local.AppDatabase;
 import top.kncweb.sposocapp.local.dao.ActivityRecordDao;
 import top.kncweb.sposocapp.local.entity.ActivityRecord;
 import top.kncweb.sposocapp.enums.ActivityType;
+import top.kncweb.sposocapp.util.JwtManager;
 
 public class TrackingActivity extends AppCompatActivity {
 
@@ -50,19 +53,31 @@ public class TrackingActivity extends AppCompatActivity {
     private AppDatabase db;
     private ActivityRecordDao dao;
 
+    private ActivityType activityType;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_tracking);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.bt_toMsg), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
+        activityType = (ActivityType) getIntent().getSerializableExtra("activityType");
+        if (activityType == null) {
+            Log.e("TrackingActivity", "未传入活动类型");
+            finish();
+            return;
+        }
+
         db = AppDatabase.getInstance(this);
         dao = db.activityRecordDao();
+
+        TextView textView = findViewById(R.id.sport_name);
+        textView.setText(activityType.toString());
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
@@ -130,8 +145,8 @@ public class TrackingActivity extends AppCompatActivity {
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
 
-        record.setUid(1000001); // TODO: Replace with actual user ID
-        record.setRtype(ActivityType.run); // TODO: Replace with actual activity type
+        record.setUid(JwtManager.getGlobalUid(SposocApplication.getContext()));
+        record.setRtype(activityType);
         record.setRtime_start(sdf.format(new Date(startTime)));
         record.setRtime_end(sdf.format(new Date(endTime)));
         record.setDistance(distance);

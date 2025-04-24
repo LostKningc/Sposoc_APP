@@ -1,19 +1,16 @@
 package top.kncweb.sposocapp.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+
+import com.google.android.material.button.MaterialButton;
 
 import top.kncweb.sposocapp.R;
 import top.kncweb.sposocapp.remote.dao.SCallback;
@@ -23,100 +20,144 @@ import top.kncweb.sposocapp.util.JwtManager;
 
 public class UserInfoActivity extends AppCompatActivity {
 
+    private TextView tvUid, tvHeight, tvWeight, tvSex, tvBmi, tvBmiAssessment;
+    private View emptyState, infoCard, metricsCard;
+    private MaterialButton btnUpdate;
+    private UserInfo userInfo = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_user_info);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+
+        // 初始化视图
+        initViews();
+
+        // 设置更新按钮点击事件
+        setupUpdateButton();
+
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.btn_update), (v, insets) -> {
             return insets;
         });
+    }
 
-        TextView tn_uid = findViewById(R.id.tn_uid);
-        TextView tn_height = findViewById(R.id.tn_height);
-        TextView tn_weight = findViewById(R.id.tn_weight);
-        RadioGroup rg_sex = findViewById(R.id.rg_sex);
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // 每次返回页面都重新加载数据
+        loadUserHealthInfo();
+    }
 
-        Button bt_get = findViewById(R.id.bt_getInfo);
-        Button bt_add = findViewById(R.id.bt_addInfo);
-        Button bt_update = findViewById(R.id.bt_updateInfo);
+    private void initViews() {
+        // 初始化文本视图
+        tvUid = findViewById(R.id.tv_uid);
+        tvHeight = findViewById(R.id.tv_height);
+        tvWeight = findViewById(R.id.tv_weight);
+        tvSex = findViewById(R.id.tv_sex);
+        tvBmi = findViewById(R.id.tv_bmi);
+        tvBmiAssessment = findViewById(R.id.tv_bmi_assessment);
 
-        bt_get.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                UserInfoRepository userInfoRepository = new UserInfoRepository(JwtManager.getJwtToken(UserInfoActivity.this));
-                userInfoRepository.getUserInfo(Integer.parseInt(tn_uid.getText().toString()), new SCallback<UserInfo>() {
-                    @Override
-                    public void onSuccess(UserInfo info) {
-                        tn_height.setText(String.valueOf(info.getHeight()));
-                        tn_weight.setText(String.valueOf(info.getWeight()));
-                        ((RadioButton)rg_sex.getChildAt(info.getSex().equals("male") ? 0 : 1)).setChecked(true);
-                    }
+        // 初始化布局视图
+        emptyState = findViewById(R.id.empty_state);
+        infoCard = findViewById(R.id.info_card);
+        metricsCard = findViewById(R.id.metrics_card);
 
-                    @Override
-                    public void onFailure(String msg) {
-                        Log.e("UserInfo",msg);
-                    }
-                });
+        // 初始化按钮
+        btnUpdate = findViewById(R.id.btn_update);
+    }
+
+    private void setupUpdateButton() {
+        btnUpdate.setOnClickListener(v -> {
+            Intent intent = new Intent(UserInfoActivity.this, EditUserInfoActivity.class);
+            // 如果有数据，将其传递给编辑页面
+            if (userInfo != null) {
+                intent.putExtra("userInfo", userInfo);
             }
+            startActivity(intent);
         });
+    }
 
-        bt_add.setOnClickListener(new View.OnClickListener() {
+    private void loadUserHealthInfo() {
+        // 设置用户ID
+        long userId = JwtManager.getGlobalUid(this);
+        tvUid.setText(String.valueOf(userId));
+
+        // 创建UserInfoRepository实例
+        UserInfoRepository userInfoRepository = new UserInfoRepository(JwtManager.getJwtToken(this));
+
+        // 加载用户健康信息
+        userInfoRepository.getUserInfo(userId, new SCallback<UserInfo>() {
             @Override
-            public void onClick(View v) {
-                UserInfoRepository userInfoRepository = new UserInfoRepository(JwtManager.getJwtToken(UserInfoActivity.this));
-
-                UserInfo userInfo = new UserInfo(Integer.parseInt(tn_uid.getText().toString()),
-                        Integer.parseInt(tn_height.getText().toString()),
-                        Integer.parseInt(tn_weight.getText().toString()),
-                        getSex(rg_sex));
-
-                userInfoRepository.addUserInfo(userInfo, new SCallback<Integer>() {
-                    @Override
-                    public void onSuccess(Integer uid) {
-                        Log.d("addInfo",String.valueOf(uid));
-                    }
-
-                    @Override
-                    public void onFailure(String msg) {
-                        Log.e("addInfo",msg);
-                    }
-                });
+            public void onSuccess(UserInfo info) {
+                userInfo = info;
+                runOnUiThread(() -> displayHealthInfo(info));
             }
-        });
 
-        bt_update.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                UserInfoRepository userInfoRepository = new UserInfoRepository(JwtManager.getJwtToken(UserInfoActivity.this));
-                int uid = Integer.parseInt(tn_uid.getText().toString());
-                Integer height = tn_height.getText().toString().trim().isEmpty()? null : Integer.parseInt(tn_height.getText().toString());
-                Integer weight = tn_weight.getText().toString().trim().isEmpty()? null : Integer.parseInt(tn_weight.getText().toString());
-
-                userInfoRepository.updateUserInfo(uid, height, weight, getSex(rg_sex), new SCallback<Boolean>() {
-                    @Override
-                    public void onSuccess(Boolean success) {
-                        Log.d("infoUpdate", "Success");
-                    }
-
-                    @Override
-                    public void onFailure(String msg) {
-                        Log.e("infoUpdate", msg);
-                    }
-                });
+            public void onFailure(String msg) {
+                Log.e("UserInfoActivity", "获取用户健康信息失败: " + msg);
+                runOnUiThread(() -> showEmptyState());
             }
         });
     }
 
-    private String getSex(@NonNull RadioGroup rg_sex){
-        int selectedId = rg_sex.getCheckedRadioButtonId();
-        if(selectedId == -1){
-            return null;
-        }else {
-            RadioButton selectedRadioButton = findViewById(selectedId);
-            return selectedRadioButton.getText().toString();
+    private void displayHealthInfo(UserInfo info) {
+        // 隐藏空状态，显示数据卡片
+        emptyState.setVisibility(View.GONE);
+        infoCard.setVisibility(View.VISIBLE);
+        metricsCard.setVisibility(View.VISIBLE);
+
+        // 设置按钮文本
+        btnUpdate.setText("更新健康信息");
+
+        // 显示用户健康数据
+        tvHeight.setText(String.valueOf(info.getHeight()));
+        // 体重单位是百克，需要转换成千克显示
+        tvWeight.setText(String.format("%.1f", info.getWeight() / 10.0));
+        // 转换性别显示
+        String displaySex = "male".equals(info.getSex()) ? "男" : "female".equals(info.getSex()) ? "女" : "--";
+        tvSex.setText(displaySex);
+
+        // 计算并显示BMI
+        calculateAndDisplayBMI(info.getHeight(), info.getWeight());
+    }
+
+    private void calculateAndDisplayBMI(int heightInCm, int weightInHg) {
+        float heightInM = heightInCm / 100f;
+        float weightInKg = weightInHg / 10f;
+
+        // 计算BMI
+        float bmi = weightInKg / (heightInM * heightInM);
+        tvBmi.setText(String.format("%.1f", bmi));
+
+        // BMI评估
+        String assessment;
+        int textColor;
+        if (bmi < 18.5) {
+            assessment = "偏瘦";
+            textColor = getResources().getColor(android.R.color.holo_blue_light);
+        } else if (bmi < 24) {
+            assessment = "正常";
+            textColor = getResources().getColor(android.R.color.holo_green_dark);
+        } else if (bmi < 28) {
+            assessment = "偏胖";
+            textColor = getResources().getColor(android.R.color.holo_orange_light);
+        } else {
+            assessment = "肥胖";
+            textColor = getResources().getColor(android.R.color.holo_red_light);
         }
+        tvBmiAssessment.setText(assessment);
+        tvBmiAssessment.setTextColor(textColor);
+    }
+
+    private void showEmptyState() {
+        // 显示空状态，隐藏数据卡片
+        emptyState.setVisibility(View.VISIBLE);
+        infoCard.setVisibility(View.GONE);
+        metricsCard.setVisibility(View.GONE);
+
+        // 设置按钮文本
+        btnUpdate.setText("添加健康信息");
     }
 }

@@ -17,7 +17,7 @@ public class UserInfoRepository {
         this.userInfoApiService = ApiClient.getUserInfoApiService(token);
     }
 
-    public void getUserInfo(int uid, final SCallback<UserInfo> sCallback){
+    public void getUserInfo(long uid, final SCallback<UserInfo> sCallback){
         userInfoApiService.getUserInfo(uid).enqueue(new Callback<UniResponse<UserInfo>>() {
             @Override
             public void onResponse(@NonNull Call<UniResponse<UserInfo>> call, @NonNull Response<UniResponse<UserInfo>> response) {

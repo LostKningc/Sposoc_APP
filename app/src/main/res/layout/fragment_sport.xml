@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="#F7F7F7">
+
+    <!-- 开始运动标题 -->
+    <TextView
+        android:id="@+id/tv_start_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="开始运动"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- 运动类型按钮组 -->
+    <LinearLayout
+        android:id="@+id/ll_sport_types"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="12dp"
+        android:weightSum="3"
+        app:layout_constraintTop_toBottomOf="@id/tv_start_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- 跑步 -->
+        <LinearLayout
+            android:id="@+id/ll_running"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="4dp"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@drawable/bg_sport_button"
+            android:layout_gravity="center"
+            android:padding="8dp"
+            android:minHeight="100dp"
+            android:minWidth="100dp">
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/ic_running"
+                android:contentDescription="跑步" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="跑步"
+                android:textSize="14sp"
+                android:textColor="#333"
+                android:layout_marginTop="4dp" />
+        </LinearLayout>
+
+        <!-- 骑行 -->
+        <LinearLayout
+            android:id="@+id/ll_cycling"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="4dp"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@drawable/bg_sport_button"
+            android:padding="8dp"
+            android:minHeight="100dp"
+            android:minWidth="100dp">
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/ic_cycling"
+                android:contentDescription="骑行" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="骑行"
+                android:textSize="14sp"
+                android:textColor="#333"
+                android:layout_marginTop="4dp" />
+        </LinearLayout>
+
+        <!-- 健走 -->
+        <LinearLayout
+            android:id="@+id/ll_walking"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="4dp"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@drawable/bg_sport_button"
+            android:padding="8dp"
+            android:minHeight="100dp"
+            android:minWidth="100dp">
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/ic_walking"
+                android:contentDescription="健走" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="健走"
+                android:textSize="14sp"
+                android:textColor="#333"
+                android:layout_marginTop="4dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <!-- 历史记录列表 -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_history"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/ll_sport_types"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:clipToPadding="false"
+        android:paddingLeft="3dp"
+        android:paddingRight="3dp"
+        android:paddingTop="3dp"
+        android:paddingBottom="8dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,19 +5,25 @@ import java.security.NoSuchAlgorithmException;
 
 public class User {
 
-    String uid;
+    Long uid;
 
     String name;
 
     String password;
 
-    public User(String name, String rawPassword, String uid){
+    public User(String name, String rawPassword, Long uid){
         this.uid = uid;
         this.name = name;
         this.password = sha256(rawPassword);
     }
 
-    private static String sha256(String rawPassword){
+    public User(String name, String rawPassword, String uid){
+        this.uid = Long.parseLong(uid);
+        this.name = name;
+        this.password = sha256(rawPassword);
+    }
+
+    public static String sha256(String rawPassword){
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] hash = digest.digest(rawPassword.getBytes());
@@ -34,11 +40,11 @@ public class User {
         }
     }
 
-    public String getUid() {
+    public Long getUid() {
         return uid;
     }
 
-    public void setUid(String uid) {
+    public void setUid(Long uid) {
         this.uid = uid;
     }
 

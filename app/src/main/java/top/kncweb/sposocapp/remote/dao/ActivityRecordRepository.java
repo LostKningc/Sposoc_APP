@@ -10,6 +10,7 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import top.kncweb.sposocapp.local.entity.ActivityRecord;
 import top.kncweb.sposocapp.remote.api.ActivityRecordService;
 import top.kncweb.sposocapp.remote.api.ApiClient;
 import top.kncweb.sposocapp.remote.models.UniResponse;
@@ -54,6 +55,29 @@ public class ActivityRecordRepository {
 
             @Override
             public void onFailure(@NonNull Call<UniResponse<Long>> call, @NonNull Throwable t) {
+                sCallback.onFailure(t.getMessage());
+            }
+        });
+    }
+
+    public void getActivityRecord(long rid, SCallback<ActivityRecord> sCallback) {
+        activityRecordService.getActivityRecord(rid).enqueue(new Callback<UniResponse<ActivityRecord>>() {
+            @Override
+            public void onResponse(@NonNull Call<UniResponse<ActivityRecord>> call, @NonNull Response<UniResponse<ActivityRecord>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    UniResponse<ActivityRecord> apiResponse = response.body();
+                    if (apiResponse.isSuccess()) {
+                        sCallback.onSuccess(apiResponse.getData());
+                    } else {
+                        sCallback.onFailure(apiResponse.getMessage());
+                    }
+                } else {
+                    sCallback.onFailure(response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<UniResponse<ActivityRecord>> call, @NonNull Throwable t) {
                 sCallback.onFailure(t.getMessage());
             }
         });

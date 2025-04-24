@@ -18,7 +18,6 @@ import top.kncweb.sposocapp.local.dao.ActivityRecordDao;
 import top.kncweb.sposocapp.local.entity.ActivityRecord;
 import top.kncweb.sposocapp.remote.dao.ActivityRecordRepository;
 import top.kncweb.sposocapp.remote.dao.SCallback;
-import top.kncweb.sposocapp.ui.UserInfoActivity;
 import top.kncweb.sposocapp.util.JwtManager;
 
 public class RecordDetailActivity extends AppCompatActivity {
@@ -35,7 +34,7 @@ public class RecordDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_record_detail);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.bt_toMsg), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;

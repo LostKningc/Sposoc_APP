@@ -17,6 +17,7 @@ import java.util.List;
 
 import top.kncweb.sposocapp.R;
 import top.kncweb.sposocapp.local.entity.ActivityRecord;
+import top.kncweb.sposocapp.util.ActivityCalculator;
 
 public class RecordListAdapter extends RecyclerView.Adapter<RecordListAdapter.ViewHolder> {
 
@@ -32,16 +33,19 @@ public class RecordListAdapter extends RecyclerView.Adapter<RecordListAdapter.Vi
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_record, parent, false);
+                .inflate(R.layout.sport_record_card, parent, false);
         return new ViewHolder(view);
     }
 
+    @SuppressLint("DefaultLocale")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ActivityRecord record = recordList.get(position);
-        holder.textView.setText("Time: " + record.getRtime_start() +
-                "\nType: " + record.getRtype() +
-                "\nDistance: " + record.getDistance() + " m");
+        ActivityCalculator calculator = new ActivityCalculator(record);
+        holder.sportType.setText(record.getRtype().toString());
+        holder.distance.setText(String.format("%.2f km", calculator.calculateDistanceInKm()));
+        holder.time.setText(calculator.calculateTimeDifferenceMinSec());
+        holder.calories.setText(String.valueOf(calculator.getCalories()));
 
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(v.getContext(), RecordDetailActivity.class);
@@ -57,10 +61,17 @@ public class RecordListAdapter extends RecyclerView.Adapter<RecordListAdapter.Vi
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView textView;
+        TextView sportType;
+        TextView distance;
+        TextView time;
+        TextView calories;
+
         public ViewHolder(View itemView) {
             super(itemView);
-            textView = itemView.findViewById(R.id.textTime);
+            sportType = itemView.findViewById(R.id.tv_sport_type);
+            distance = itemView.findViewById(R.id.tv_distance);
+            time = itemView.findViewById(R.id.tv_duration);
+            calories =  itemView.findViewById(R.id.tv_calories);
         }
     }
 }

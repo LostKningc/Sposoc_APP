@@ -62,4 +62,25 @@ public class EncryptedSharedPreferencesHelper {
             Log.e("EncryptedPrefs", "Error deleting JWT token", e);
         }
     }
+
+    // 存储全局 UID
+    public void saveGlobalUid(long uid) {
+        try {
+            SharedPreferences.Editor editor = encryptedSharedPreferences.edit();
+            editor.putLong("global_uid", uid);
+            editor.apply(); // 提交更改
+        } catch (Exception e) {
+            Log.e("EncryptedPrefs", "Error saving global UID", e);
+        }
+    }
+
+    // 获取全局 UID
+    public long getGlobalUid() {
+        try {
+            return encryptedSharedPreferences.getLong("global_uid", -1);
+        } catch (Exception e) {
+            Log.e("EncryptedPrefs", "Error retrieving global UID", e);
+            return -1;
+        }
+    }
 }

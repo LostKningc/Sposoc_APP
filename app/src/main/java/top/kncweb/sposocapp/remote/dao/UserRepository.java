@@ -13,53 +13,28 @@ import top.kncweb.sposocapp.remote.models.User;
 public class UserRepository {
     private UserApiService userApiService;
 
-    public UserRepository(){
-        this.userApiService = ApiClient.getUserApiService();
+    public UserRepository(String token) {
+        this.userApiService = ApiClient.getUserApiService(token);
     }
 
-    public void addUser(User user, final SCallback<Integer> sCallback) {
-        userApiService.register(user).enqueue(new Callback<UniResponse<Integer>>() {
+    public void getUser(long uid, final SCallback<User> sCallback) {
+        userApiService.getUser(uid).enqueue(new Callback<UniResponse<User>>() {
             @Override
-            public void onResponse(@NonNull Call<UniResponse<Integer>> call, @NonNull Response<UniResponse<Integer>> response) {
-                if(response.isSuccessful() && response.body() != null) {
-                    UniResponse<Integer> apiResponse = response.body();
+            public void onResponse(@NonNull Call<UniResponse<User>> call, @NonNull Response<UniResponse<User>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    UniResponse<User> apiResponse = response.body();
                     if (apiResponse.isSuccess()) {
                         sCallback.onSuccess(apiResponse.getData());
                     } else {
                         sCallback.onFailure(apiResponse.getMessage());
                     }
-                }
-                else {
+                } else {
                     sCallback.onFailure(response.message());
                 }
             }
 
             @Override
-            public void onFailure(@NonNull Call<UniResponse<Integer>> call, @NonNull Throwable t) {
-                sCallback.onFailure(t.getMessage());
-            }
-        });
-    }
-
-    public void login(String username, String password, final SCallback<String> sCallback){
-        userApiService.login(username, password).enqueue(new Callback<UniResponse<String>>() {
-            @Override
-            public void onResponse(@NonNull Call<UniResponse<String>> call, @NonNull Response<UniResponse<String>> response) {
-                if(response.isSuccessful() && response.body() != null) {
-                    UniResponse<String> apiResponse = response.body();
-                    if (apiResponse.isSuccess()) {
-                        sCallback.onSuccess(apiResponse.getData());
-                    } else {
-                        sCallback.onFailure(apiResponse.getMessage());
-                    }
-                }
-                else {
-                    sCallback.onFailure(response.message());
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<UniResponse<String>> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<UniResponse<User>> call, @NonNull Throwable t) {
                 sCallback.onFailure(t.getMessage());
             }
         });

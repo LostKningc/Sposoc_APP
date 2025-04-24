@@ -39,4 +39,10 @@
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
     <string name="login_button_name">Login</string>
+    <string name="username_placeholder">Loadling...</string>
+    <string name="time_placeholder">Unknowtime</string>
+    <string name="tweet_content_placeholder">Empty</string>
+    <string name="kilometers">KM</string>
+    <string name="minutes">minutes</string>
+    <string name="calories">calories</string>
 </resources>

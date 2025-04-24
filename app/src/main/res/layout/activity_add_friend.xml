@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_add_friend"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#FFFFFF">
+
+
+    <!-- 通过 UID 添加 -->
+    <LinearLayout
+        android:id="@+id/layout_add_by_uid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <EditText
+            android:id="@+id/af_edit_uid_input"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="48dp"
+            android:hint="输入用户ID"
+            android:inputType="number"
+            android:paddingHorizontal="12dp"
+            android:background="#F1F1F1"
+            />
+
+        <Button
+            android:id="@+id/af_button_send_request"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:text="添加" />
+    </LinearLayout>
+
+    <!-- 分割线 -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#E0E0E0" />
+
+    <!-- 好友请求标题 -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="收到的好友请求"
+        android:textSize="16sp"
+        android:textColor="#333333"
+        android:padding="16dp" />
+
+    <!-- 好友请求列表 -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_friend_requests"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="8dp" />
+
+</LinearLayout>

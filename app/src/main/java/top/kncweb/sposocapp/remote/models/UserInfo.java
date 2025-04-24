@@ -1,24 +1,26 @@
 package top.kncweb.sposocapp.remote.models;
 
-public class UserInfo {
+import java.io.Serializable;
 
-    private int uid;
+public class UserInfo implements Serializable {
+
+    private long uid;
     private int height;
     private int weight;
     private String sex;
 
-    public UserInfo(int uid, int height, int weight, String sex) {
+    public UserInfo(long uid, int height, int weight, String sex) {
         this.uid = uid;
         this.height = height;
         this.weight = weight;
         this.sex = sex;
     }
 
-    public int getUid() {
+    public long getUid() {
         return uid;
     }
 
-    public void setUid(int uid) {
+    public void setUid(long uid) {
         this.uid = uid;
     }
 

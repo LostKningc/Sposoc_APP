@@ -25,8 +25,8 @@ public class ApiClient {
         return retrofit;
     }
 
-    public static UserApiService getUserApiService(){
-        return getClient("").create(UserApiService.class);
+    public static AuthApiService getUserApiService(){
+        return getClient("").create(AuthApiService.class);
     }
 
     public static UserInfoApiService getUserInfoApiService(String token) {
@@ -35,5 +35,25 @@ public class ApiClient {
 
     public static ActivityRecordService getActivityRecordService(String token) {
         return getClient(token).create(ActivityRecordService.class);
+    }
+
+    public static FriendshipService getFriendshipService(String token) {
+        return getClient(token).create(FriendshipService.class);
+    }
+
+    public static UserApiService getUserApiService(String token) {
+        return getClient(token).create(UserApiService.class);
+    }
+
+    public static PostApiService getPostApiService(String token) {
+        return getClient(token).create(PostApiService.class);
+    }
+
+    public static CommentApiService getCommentApiService(String token) {
+        return getClient(token).create(CommentApiService.class);
+    }
+
+    public static LikeApiService getLikeApiService(String token) {
+        return getClient(token).create(LikeApiService.class);
     }
 }
